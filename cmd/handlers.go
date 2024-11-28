@@ -14,7 +14,7 @@ func (app *app) Home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Be aware this will be parse the file on every request - there is a better way!!!
-	t, err := template.ParseFiles("./assets/templates/home.page.html")
+	t, err := template.ParseFiles("./assets/templates/home.page.html", "./assets/templates/main.layout.html")
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -26,7 +26,7 @@ func (app *app) Home(w http.ResponseWriter, r *http.Request) {
 func (app *app) createPost(w http.ResponseWriter, r *http.Request) {
 
 	// Be aware this will be parse the file on every request - there is a better way!!!
-	t, err := template.ParseFiles("./assets/templates/post.create.page.html")
+	t, err := template.ParseFiles("./assets/templates/post.create.page.html", "./assets/templates/main.layout.html")
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
