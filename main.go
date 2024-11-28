@@ -5,12 +5,14 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/dbsimmons64/posty/internal/models/sqlite"
+	"github.com/dbsimmons64/posty/handlers"
+	"github.com/dbsimmons64/posty/internal/repos"
+	"github.com/dbsimmons64/posty/internal/services"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 type app struct {
-	posts *sqlite.PostModel
+	postService services.PostService
 }
 
 func main() {
@@ -24,10 +26,16 @@ func main() {
 	// Probably not needed for sqlite.
 	defer db.Close()
 
+	repo := repositories.PostRepositoryDB{
+		DB: db,
+	}
+
+	service := services.PostServiceImpl{
+		Repo: repo,
+	}
+
 	app := app{
-		posts: &sqlite.PostModel{
-			DB: db,
-		},
+		postService: service,
 	}
 
 	srv := http.Server{

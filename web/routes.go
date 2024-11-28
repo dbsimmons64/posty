@@ -1,6 +1,9 @@
-package main
+package web
 
-import "net/http"
+import (
+	"github.com/dbsimmons64/cmd/web/"
+	"net/http"
+)
 
 func (app *app) routes() http.Handler {
 	mux := http.NewServeMux()

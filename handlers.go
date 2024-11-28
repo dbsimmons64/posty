@@ -7,7 +7,8 @@ import (
 
 func (app *app) Home(w http.ResponseWriter, r *http.Request) {
 
-	posts, err := app.posts.All()
+	// posts, err := app.posts.All()
+	posts, err := app.postService.ListPosts()
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -41,7 +42,7 @@ func (app *app) storePost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 400)
 	}
 
-	err = app.posts.Insert(
+	err = app.postService.CreatePost(
 		r.PostForm.Get("title"),
 		r.PostForm.Get("content"),
 	)
@@ -49,5 +50,6 @@ func (app *app) storePost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
+
 	http.Redirect(w, r, "/", http.StatusFound)
 }

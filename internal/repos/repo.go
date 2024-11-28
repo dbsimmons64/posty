@@ -1,17 +1,20 @@
-package sqlite
+package repositories
 
-// Contains all the queries against the Post model
 import (
 	"database/sql"
-
 	"github.com/dbsimmons64/posty/internal/models"
 )
 
-type PostModel struct {
+type PostRepository interface {
+	Insert(title, content string) error
+	All() ([]models.Post, error)
+}
+
+type PostRepositoryDB struct {
 	DB *sql.DB
 }
 
-func (m PostModel) Insert(title, content string) error {
+func (m PostRepositoryDB) Insert(title, content string) error {
 	stmt := `
     INSERT INTO posts (title, content, createdAt)
     VALUES (?, ?, datetime('now'))
@@ -22,7 +25,7 @@ func (m PostModel) Insert(title, content string) error {
 
 }
 
-func (m PostModel) All() ([]models.Post, error) {
+func (m PostRepositoryDB) All() ([]models.Post, error) {
 	stmt := `SELECT id, title, content, createdAt FROM posts ORDER BY id DESC`
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
