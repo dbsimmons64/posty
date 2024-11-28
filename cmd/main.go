@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/dbsimmons64/posty/repos"
 	"github.com/dbsimmons64/posty/services"
@@ -17,9 +16,6 @@ type app struct {
 
 func main() {
 
-	cwd, _ := os.Getwd()
-	log.Println("Current working directory:", cwd)
-
 	// Connect to the SQLITE3 database
 	db, err := sql.Open("sqlite3", "database/app.db")
 	if err != nil {
@@ -30,17 +26,9 @@ func main() {
 	// Probably not needed for sqlite.
 	defer db.Close()
 
-	repo := repositories.PostRepositoryDB{
-		DB: db,
-	}
-
-	service := services.PostServiceImpl{
-		Repo: repo,
-	}
-
-	app := app{
-		postService: service,
-	}
+	repo := repositories.PostRepositoryDB{DB: db}
+	service := services.PostServiceImpl{Repo: repo}
+	app := app{postService: service}
 
 	srv := http.Server{
 		Addr:    ":8080",

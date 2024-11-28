@@ -7,7 +7,6 @@ import (
 
 func (app *app) Home(w http.ResponseWriter, r *http.Request) {
 
-	// posts, err := app.posts.All()
 	posts, err := app.postService.ListPosts()
 	if err != nil {
 		http.Error(w, err.Error(), 500)
