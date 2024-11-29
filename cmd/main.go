@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/dbsimmons64/posty/repos"
+	repositories "github.com/dbsimmons64/posty/repos"
 	"github.com/dbsimmons64/posty/services"
 	_ "github.com/mattn/go-sqlite3"
 )

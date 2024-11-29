@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"text/template"
 )
 
 func (app *app) Home(w http.ResponseWriter, r *http.Request) {
@@ -13,26 +12,12 @@ func (app *app) Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Be aware this will be parse the file on every request - there is a better way!!!
-	t, err := template.ParseFiles("./assets/templates/home.page.html", "./assets/templates/main.layout.html")
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	t.Execute(w, map[string]any{"Posts": posts})
+	render(w, "./assets/templates/home.page.html", pageData{"Posts": posts})
 }
 
 func (app *app) createPost(w http.ResponseWriter, r *http.Request) {
 
-	// Be aware this will be parse the file on every request - there is a better way!!!
-	t, err := template.ParseFiles("./assets/templates/post.create.page.html", "./assets/templates/main.layout.html")
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	t.Execute(w, nil)
+	render(w, "./assets/templates/post.create.page.html", nil)
 }
 
 func (app *app) storePost(w http.ResponseWriter, r *http.Request) {
